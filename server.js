@@ -29,19 +29,37 @@ const Book = mongoose.model('Book', bookSchema);
 // Routen
 app.post('/books', (req, res) => {
   const newBook = new Book(req.body);
-  newBook.save().then(book => res.json(book));
+  newBook.save()
+    .then(book => res.json(book))
+    .catch(err => res.status(500).json({ error: 'Fehler beim Speichern des Buches' }));
 });
 
 app.get('/books', (req, res) => {
-  Book.find().then(books => res.json(books));
+  Book.find()
+    .then(books => res.json(books))
+    .catch(err => res.status(500).json({ error: 'Fehler beim Abrufen der Bücher' }));
 });
 
 app.put('/books/:id', (req, res) => {
-  Book.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(book => res.json(book));
+  Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then(book => {
+      if (!book) {
+        return res.status(404).json({ error: 'Buch nicht gefunden' });
+      }
+      res.json(book);
+    })
+    .catch(err => res.status(500).json({ error: 'Fehler beim Aktualisieren des Buches' }));
 });
 
 app.delete('/books/:id', (req, res) => {
-  Book.findByIdAndDelete(req.params.id).then(() => res.json({ message: 'Buch gelöscht' }));
+  Book.findByIdAndDelete(req.params.id)
+    .then(deletedBook => {
+      if (!deletedBook) {
+        return res.status(404).json({ error: 'Buch nicht gefunden' });
+      }
+      res.json({ message: 'Buch gelöscht' });
+    })
+    .catch(err => res.status(500).json({ error: 'Fehler beim Löschen des Buches' }));
 });
 
 app.listen(PORT, () => {
