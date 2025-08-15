@@ -18,5 +18,11 @@
   },
   "author": "Dein Name",
   "license": "MIT",
-  "files": ["LICENSE"]
+  "files": ["LICENSE"],
+  "keywords": [],
+  "homepage": "", 
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/repo.git"
+  }
 }
