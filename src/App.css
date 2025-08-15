@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+.App { max-width: 600px; margin: auto; }
+input { margin-right: 10px; margin-bottom: 10px; }
+button { margin-bottom: 20px; }
