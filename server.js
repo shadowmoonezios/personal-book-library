@@ -27,6 +27,7 @@ const bookSchema = new mongoose.Schema({
 const Book = mongoose.model('Book', bookSchema);
 
 // Routen
+// Neue Bücher speichern
 app.post('/books', (req, res) => {
   const newBook = new Book(req.body);
   newBook.save()
@@ -34,12 +35,14 @@ app.post('/books', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Fehler beim Speichern des Buches' }));
 });
 
+// Alle Bücher abrufen
 app.get('/books', (req, res) => {
   Book.find()
     .then(books => res.json(books))
     .catch(err => res.status(500).json({ error: 'Fehler beim Abrufen der Bücher' }));
 });
 
+// Buch aktualisieren
 app.put('/books/:id', (req, res) => {
   Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(book => {
@@ -51,6 +54,7 @@ app.put('/books/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Fehler beim Aktualisieren des Buches' }));
 });
 
+// Buch löschen
 app.delete('/books/:id', (req, res) => {
   Book.findByIdAndDelete(req.params.id)
     .then(deletedBook => {
@@ -62,6 +66,7 @@ app.delete('/books/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Fehler beim Löschen des Buches' }));
 });
 
+// Server starten
 app.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
