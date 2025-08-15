@@ -13,7 +13,10 @@ app.use(bodyParser.json());
 // MongoDB Verbindung und Fehlerbehandlung
 mongoose.connect('mongodb://localhost:27017/personal-book-library', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB verbunden'))
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.error('MongoDB Verbindung fehlgeschlagen:', err);
+    process.exit(1); // Stoppe die Anwendung bei Verbindungsfehler
+  });
 
 // Buch Schema
 const bookSchema = new mongoose.Schema({
